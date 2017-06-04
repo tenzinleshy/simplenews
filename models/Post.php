@@ -18,6 +18,8 @@ use Yii;
  */
 class Post extends \yii\db\ActiveRecord
 {
+
+
     /**
      * @inheritdoc
      */
@@ -35,8 +37,8 @@ class Post extends \yii\db\ActiveRecord
             [['author_id', 'date', 'category_id', 'text', 'title', 'abridgment'], 'required'],
             [['author_id', 'date', 'category_id', 'activity'], 'integer'],
             [['text', 'abridgment'], 'string'],
-            [['title'], 'string', 'max' => 255],
-            [['title'], 'unique'],
+            [['title', 'picture'], 'string', 'max' => 255],
+            [['title'], 'unique']
         ];
     }
 
@@ -54,6 +56,9 @@ class Post extends \yii\db\ActiveRecord
             'title' => 'Title',
             'abridgment' => 'Abridgment',
             'activity' => 'Activity',
+            'picture' => 'Picture'
         ];
     }
+
+
 }

@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Post;
 use app\models\PostSearch;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -64,15 +66,48 @@ class PostController extends Controller
     public function actionCreate()
     {
         $model = new Post();
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+/*
+ array(2) { ["_csrf"]=> string(56) "RmRqdjJsM09yM141eSRjeTAlBxVGAEsWdgIeKXw9Ai4qVgcHegpRLg==" ["Post"]=> array(7) { ["author_id"]=> string(2) "47" ["date"]=> string(13) "1497992400000" ["category_id"]=> string(1) "1" ["text"]=> string(9) "drgedhedt" ["title"]=> string(10) "thdhedthdt" ["abridgment"]=> string(9) "edthtedhj" ["activity"]=> string(1) "1" } } create
+ * */
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->date = date('U');
+            $model->activity = 1;
+            $model->author_id = 47;
+            $model->category_id = 1;
+
+            if ($model->save()){
+                $model = new Post();
+            }
+            //если пост запрос и save
         }
+        $searchModel = new PostSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+        ]);
+
     }
+
+//    public function actionUpload()
+//    {
+//        $uploadModel = new UploadForm();
+//
+//        if (Yii::$app->request->isPost) {
+//            $uploadModel->imageFile = UploadedFile::getInstance($uploadModel, 'imageFile');
+//            if ($uploadModel->upload()) {
+//                // file is uploaded successfully
+//                return;
+//            }
+//        }
+//
+//        return $this->render('upload', ['model' => $uploadModel]);
+//    }
 
     /**
      * Updates an existing Post model.
@@ -83,13 +118,21 @@ class PostController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if(Yii::$app->request->isAjax){
+                echo 'success';
+                Yii::$app->end();
+            }else{
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if(Yii::$app->request->isAjax){
+                $this->renderPartial('update', array('model' => $model));//, false, true
+            }else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
 

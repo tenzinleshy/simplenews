@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use kartik\daterange\DateRangePicker;
 use app\models\Post;
 
 /**
@@ -12,6 +13,10 @@ use app\models\Post;
  */
 class PostSearch extends Post
 {
+    public $createTimeRange;
+    public $createTimeStart;
+    public $createTimeEnd;
+
     /**
      * @inheritdoc
      */
@@ -31,6 +36,7 @@ class PostSearch extends Post
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+
 
     /**
      * Creates data provider instance with search query applied
@@ -68,7 +74,9 @@ class PostSearch extends Post
 
         $query->andFilterWhere(['like', 'text', $this->text])
             ->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'abridgment', $this->abridgment]);
+            ->andFilterWhere(['like', 'abridgment', $this->abridgment])
+            ->andFilterWhere(['>=', 'date', $this->createTimeStart])
+            ->andFilterWhere(['<', 'date', $this->createTimeEnd]);
 
         return $dataProvider;
     }
