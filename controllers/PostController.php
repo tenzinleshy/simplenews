@@ -53,17 +53,16 @@ class PostController extends Controller
      * @param integer $numItems
      * @return mixed
      */
-    public function actionList($numItems = 2)
+    public function actionList()
     {
-        $string = Yii::$app->request->post('string');
-        var_dump($string);
+        $selected = Yii::$app->request->post('per-page-select');
+
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find()->where(['activity'=>Post::STATUS_ACTIVE])->orderBy('date DESC'),
         ]);
 
         $dataProvider->pagination = [
-            'defaultPageSize' => 2,
-            'pageSizeLimit' => [2, 10],
+            'defaultPageSize' => ($selected)?$selected:2
         ];
 
 
@@ -71,10 +70,13 @@ class PostController extends Controller
         return $this->render('list', [
             'listDataProvider' => $dataProvider,
             'numItems' => [
-                2=>false,
-                5 => true,
-                10 => false
-            ]
+                2=>2,
+                5 =>5,
+                10 =>10,
+                20 =>20,
+                50 =>50,
+            ],
+            'selected' => $selected
         ]);
     }
 

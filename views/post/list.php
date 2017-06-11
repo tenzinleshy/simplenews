@@ -23,8 +23,8 @@ $modelPostSearch = new app\models\PostSearch();
 Pjax::begin();
 echo ListView::widget([
     'dataProvider' => $listDataProvider,
-//    'itemView' => '_list',
-    'itemView' => Yii::$app->request->get('advanced-view') ? '_list' : '_list-advanced',
+    'itemView' => '_list',
+//    'itemView' => Yii::$app->request->get('advanced-view') ? '_list' : '_list-advanced',
     'options' => [
         'tag' => 'div',
         'class' => 'news-list',
@@ -54,17 +54,10 @@ echo ListView::widget([
 ],
 ]);
 
-$selected = '';
-$items = [];
-foreach($numItems as $numItem => $isSelected){
-    $items[$numItem] = $numItem;
-    if($isSelected){
-        $selected = $numItem;
-    }
-}
-Html::beginForm(['post/list'], 'post', ['data-pjax' => '', 'class' => 'form-inline', 'id'=>'per-page']);
-echo Html::dropDownList('per-page-select', $selected, $items,['onchange'=>'$(\'#per-page\').submit();console.log("ddd");']);
-Html::endForm();
+
+echo Html::beginForm(['post/list'], 'post', ['data-pjax' => '', 'class' => 'form-inline', 'id'=>'per-page']);
+echo Html::dropDownList('per-page-select', $selected, $numItems,['onchange'=>'$(\'#per-page\').submit();console.log("ddd");']);
+echo Html::endForm();
 Pjax::end();
 
 //$form = ActiveForm::begin();
