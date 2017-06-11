@@ -80,9 +80,9 @@ $config = [
             // for the mailer to send real emails.
 //            'transport' => [
 //                'class' => 'Swift_SmtpTransport',
-//                'host' => 'localhost',
-//                'username' => 'account@domain.ru',
-//                'password' => 'password',
+//                'host' => 'illustrilla.ru',//'mail.illustrilla.ru',
+//                'username' => 'noreply@illustrilla.ru',
+//                'password' => 'n0reply111ustrill@',
 //                'port' => '587',
 //                'encryption' => 'tls',
 //            ],

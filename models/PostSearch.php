@@ -80,4 +80,16 @@ class PostSearch extends Post
 
         return $dataProvider;
     }
+
+    /**
+     * Возвращает опубликованные посты
+     * @return ActiveDataProvider
+     */
+    function getPublishedPosts()
+    {
+        return new ActiveDataProvider([
+            'query' => Post::find()
+                ->where(['activity' => self::STATUS_ACTIVE])
+        ]);
+    }
 }

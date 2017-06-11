@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "post".
@@ -18,6 +19,9 @@ use Yii;
  */
 class Post extends \yii\db\ActiveRecord
 {
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_NOT_ACTIVE = 0;
 
 
     /**
@@ -58,6 +62,18 @@ class Post extends \yii\db\ActiveRecord
             'activity' => 'Activity',
             'picture' => 'Picture'
         ];
+    }
+
+    /**
+     * Возвращает опубликованные посты
+     * @return ActiveDataProvider
+     */
+    function getPublishedPosts()
+    {
+        return new ActiveDataProvider([
+            'query' => Post::find()
+                ->where(['activity' => 1])
+        ]);
     }
 
 

@@ -10,6 +10,8 @@ use yii\web\UploadedFile;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use yii\data\Pagination;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -43,6 +45,36 @@ class PostController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all Post models.
+     * @param integer $numItems
+     * @return mixed
+     */
+    public function actionList($numItems = 2)
+    {
+        $string = Yii::$app->request->post('string');
+        var_dump($string);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Post::find()->where(['activity'=>Post::STATUS_ACTIVE])->orderBy('date DESC'),
+        ]);
+
+        $dataProvider->pagination = [
+            'defaultPageSize' => 2,
+            'pageSizeLimit' => [2, 10],
+        ];
+
+
+        $this->view->title = 'News List';
+        return $this->render('list', [
+            'listDataProvider' => $dataProvider,
+            'numItems' => [
+                2=>false,
+                5 => true,
+                10 => false
+            ]
         ]);
     }
 
