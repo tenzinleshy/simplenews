@@ -36,11 +36,25 @@ $this->registerJs(
 <!--    --><?//=$form->field($model, 'picture')->fileInput();?>
 <!--    --><?//= $form->field($model, 'imageFile')->fileInput() ?>
 
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'abridgment')->textarea(['rows' => 6]) ?>
+    <?php
+        $template = [
+        'labelOptions'=>['class'=>'col-lg-3'],
+        'template' => '<div class="checkbox">{label}{input}{error}{hint}</div>',
+        ];
+        echo $form->field($model, 'activity', $template)->checkbox()
+    ?>
+
+<!--    --><?//= $form->field($model, 'activity', ['options' => ['style' => 'margin:35px 0px 40px 0px;']])->checkbox([
+//        'value'=>0,
+//        'uncheck'=>1,
+//        'checked '=>$model->activity?false:true,
+//        'class'=>'cmn-toggle cmn-toggle-round-small',
+//        'label'=>false,
+//    ], false)?>
 
 <!--    --><?//= $form->field($model, 'activity')->textInput() ?>
 

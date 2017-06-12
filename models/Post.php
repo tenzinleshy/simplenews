@@ -59,7 +59,7 @@ class Post extends \yii\db\ActiveRecord
             'text' => 'Text',
             'title' => 'Title',
             'abridgment' => 'Abridgment',
-            'activity' => 'Activity',
+            'activity' => 'Published',
             'picture' => 'Picture'
         ];
     }
@@ -76,5 +76,14 @@ class Post extends \yii\db\ActiveRecord
         ]);
     }
 
+    /**
+     * Возвращает опубликованные посты
+     * @param integer $id
+//     * @return ActiveDataProvider
+     */
+    function getAuthor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'author_id']);
+    }
 
 }

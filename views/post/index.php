@@ -1,10 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
 use yii\widgets\Pjax;
 use kartik\daterange\DateRangePicker;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PostSearch */
@@ -77,6 +79,25 @@ $modelPostSearch = new app\models\PostSearch();
             'abridgment:ntext',
             [
                 'attribute'=>'activity',
+                'value' => function ($model, $key, $index, $column) {
+                    //  var_dump($model); var_dump($key); exit;
+                    return Html::activeDropDownList($model, 'activity',
+                        ArrayHelper::map(\app\models\Post::find()->all(), 'id', 'name'),
+                        [
+                            'prompt' => 'Нет',
+                            'data-id' => $model->id,
+                            'id' => "activity-$model->id",
+                            'onchange' => "
+                                   $.ajax({
+                                     url: \"/post/update\",
+                                     type: \"post\",
+                                     data: { word_id:  $key, group_id : $(\"#activity-$model->id\").val()},
+                                    });"
+                        ]
+
+                    );
+                },
+                'format' => 'raw',
                 'filter'=>array("1"=>"Active","0"=>"Disabled"),
             ],
 

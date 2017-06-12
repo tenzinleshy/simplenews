@@ -21,10 +21,11 @@ $modelPostSearch = new app\models\PostSearch();
     <h1><?= Html::encode($this->title) ?></h1>
 <?php
 Pjax::begin();
+
 echo ListView::widget([
     'dataProvider' => $listDataProvider,
     'itemView' => '_list',
-//    'itemView' => Yii::$app->request->get('advanced-view') ? '_list' : '_list-advanced',
+//    'itemView' => $advanced ? '_list' : '_list-advanced',
     'options' => [
         'tag' => 'div',
         'class' => 'news-list',
@@ -56,7 +57,7 @@ echo ListView::widget([
 
 
 echo Html::beginForm(['post/list'], 'post', ['data-pjax' => '', 'class' => 'form-inline', 'id'=>'per-page']);
-echo Html::dropDownList('per-page-select', $selected, $numItems,['onchange'=>'$(\'#per-page\').submit();console.log("ddd");']);
+echo Html::dropDownList('per-page-select', $selected, $numItems,['onchange'=>'$(\'#per-page\').submit();']);
 echo Html::endForm();
 Pjax::end();
 

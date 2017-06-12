@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Yii;
 use app\models\Post;
 use app\models\PostSearch;
@@ -18,6 +19,16 @@ use yii\data\Pagination;
  */
 class PostController extends Controller
 {
+    const COUNT_PER_PAGE = [
+        2=>2,
+        5 =>5,
+        10 =>10,
+        20 =>20,
+        50 =>50,
+    ];
+
+    public $numPosts = 2;
+
     /**
      * @inheritdoc
      */
@@ -54,29 +65,38 @@ class PostController extends Controller
      * @return mixed
      */
     public function actionList()
-    {
-        $selected = Yii::$app->request->post('per-page-select');
+     {
+
+//         $model = new Post();
+//         $data = Post::find()->one()->getAuthor()->one();
+//         var_dump($data);die;
+
+        $this->numPosts = Yii::$app->request->post('per-page-select');
+        if(is_null($this->numPosts)){
+            $this->numPosts = 2;
+        }
+        $showMoreParams = [
+            'id' => Yii::$app->request->post('id'),
+            'advanced' => Yii::$app->request->post('advanced')
+        ];
 
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find()->where(['activity'=>Post::STATUS_ACTIVE])->orderBy('date DESC'),
         ]);
 
         $dataProvider->pagination = [
-            'defaultPageSize' => ($selected)?$selected:2
+            'defaultPageSize' => $this->numPosts
         ];
 
 
         $this->view->title = 'News List';
         return $this->render('list', [
             'listDataProvider' => $dataProvider,
-            'numItems' => [
-                2=>2,
-                5 =>5,
-                10 =>10,
-                20 =>20,
-                50 =>50,
-            ],
-            'selected' => $selected
+            'numItems' => self::COUNT_PER_PAGE,
+            'selected' => $this->numPosts,
+            'advanced' =>   $showMoreParams['advanced'],
+            'advanced_id' => $showMoreParams['id'],
+
         ]);
     }
 
@@ -87,7 +107,7 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('single_post', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -109,7 +129,7 @@ class PostController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->date = date('U');
-            $model->activity = 1;
+//            $model->activity = 1;
             $model->author_id = 47;
             $model->category_id = 1;
 
@@ -152,21 +172,22 @@ class PostController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+//        var_dump(Yii::$app->request->post());die;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if(Yii::$app->request->isAjax){
-                echo 'success';
-                Yii::$app->end();
-            }else{
+//            if(Yii::$app->request->isAjax){
+//                echo 'success';
+//                Yii::$app->end();
+//            }else{
                 return $this->redirect(['view', 'id' => $model->id]);
-            }
+//            }
         } else {
-            if(Yii::$app->request->isAjax){
-                $this->renderPartial('update', array('model' => $model));//, false, true
-            }else {
+//            if(Yii::$app->request->isAjax){
+//                $this->renderPartial('update', array('model' => $model));//, false, true
+//            }else {
                 return $this->render('update', [
                     'model' => $model,
                 ]);
-            }
+//            }
         }
     }
 
