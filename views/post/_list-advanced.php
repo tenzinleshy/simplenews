@@ -22,10 +22,6 @@ use yii\widgets\Pjax;
     <!--    --><?php //Pjax::end(); ?>
     <hr>
     <!--    <div class="image hidden-xs hidden-sm">-->
-    <!--        --><?//= Html::img($model->getImage()->getUrl('200x'), ['class' => 'img-responsive']) ?>
+
     <!--    </div>-->
 </div>
-
-<!--<div class="content">-->
-<!--    --><?//= $model->anons ?>
-<!--</div>-->

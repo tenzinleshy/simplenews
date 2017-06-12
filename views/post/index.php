@@ -24,7 +24,6 @@ $modelPostSearch = new app\models\PostSearch();
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?//= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>
         <?php
         Modal::begin([
             'size' => 'modal-lg',
@@ -79,25 +78,25 @@ $modelPostSearch = new app\models\PostSearch();
             'abridgment:ntext',
             [
                 'attribute'=>'activity',
-                'value' => function ($model, $key, $index, $column) {
-                    //  var_dump($model); var_dump($key); exit;
-                    return Html::activeDropDownList($model, 'activity',
-                        ArrayHelper::map(\app\models\Post::find()->all(), 'id', 'name'),
-                        [
-                            'prompt' => 'Нет',
-                            'data-id' => $model->id,
-                            'id' => "activity-$model->id",
-                            'onchange' => "
-                                   $.ajax({
-                                     url: \"/post/update\",
-                                     type: \"post\",
-                                     data: { word_id:  $key, group_id : $(\"#activity-$model->id\").val()},
-                                    });"
-                        ]
-
-                    );
-                },
-                'format' => 'raw',
+//                'value' => function ($model, $key, $index, $column) {
+//                    //  var_dump($model); var_dump($key); exit;
+//                    return Html::activeDropDownList($model, 'activity',
+//                        ArrayHelper::map(\app\models\Post::find()->all(), 'id', 'name'),
+//                        [
+//                            'prompt' => 'Нет',
+//                            'data-id' => $model->id,
+//                            'id' => "activity-$model->id",
+//                            'onchange' => "
+//                                   $.ajax({
+//                                     url: \"/post/update\",
+//                                     type: \"post\",
+//                                     data: { word_id:  $key, group_id : $(\"#activity-$model->id\").val()},
+//                                    });"
+//                        ]
+//
+//                    );
+//                },
+//                'format' => 'raw',
                 'filter'=>array("1"=>"Active","0"=>"Disabled"),
             ],
 

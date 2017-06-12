@@ -13,10 +13,7 @@ use yii\widgets\Pjax;
     <?php echo Html::a('Читать далее', ['/post/view', 'id' => $model->id, 'advanced' => true], ['class' => 'link']);?>
     <hr>
 <!--    <div class="image hidden-xs hidden-sm">-->
-<!--        --><?//= Html::img($model->getImage()->getUrl('200x'), ['class' => 'img-responsive']) ?>
+
 <!--    </div>-->
 </div>
 <!--abridgment-->
-<!--<div class="content">-->
-<!--    --><?//= $model->anons ?>
-<!--</div>-->

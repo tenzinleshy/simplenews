@@ -29,7 +29,7 @@ $modelPostSearch = new app\models\PostSearch();
 
         <hr>
         <!--    <div class="image hidden-xs hidden-sm">-->
-        <!--        --><?//= Html::img($model->getImage()->getUrl('200x'), ['class' => 'img-responsive']) ?>
+
         <!--    </div>-->
     </div>
 
