@@ -10,7 +10,15 @@ use yii\widgets\Pjax;
         <p>Автор: <?= $model->author_id?> | Дата публикации: <?= date('D, d M Y', $model->date) ?></p>
     </div>
     <?= HtmlPurifier::process($model->abridgment) ?>
-    <?php echo Html::a('Читать далее', ['/post/view', 'id' => $model->id, 'advanced' => true], ['class' => 'link']);?>
+    <div class="read-more">
+    <?php
+    if(!Yii::$app->user->isGuest) {
+        echo Html::a('Читать далее', ['/post/view', 'id' => $model->id, 'advanced' => true], ['class' => 'link']);
+    }else{
+        echo Html::a('Авторизуйтесь для просмотра', ['/login'], ['class' => 'link']);
+    }
+    ?>
+    </div>
     <hr>
 <!--    <div class="image hidden-xs hidden-sm">-->
 

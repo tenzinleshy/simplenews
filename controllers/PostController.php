@@ -51,7 +51,7 @@ class PostController extends Controller
     public function actionIndex()
     {
         $searchModel = new PostSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, true);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -121,16 +121,11 @@ class PostController extends Controller
     {
         $model = new Post();
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-/*
- array(2) { ["_csrf"]=> string(56) "RmRqdjJsM09yM141eSRjeTAlBxVGAEsWdgIeKXw9Ai4qVgcHegpRLg==" ["Post"]=> array(7) { ["author_id"]=> string(2) "47" ["date"]=> string(13) "1497992400000" ["category_id"]=> string(1) "1" ["text"]=> string(9) "drgedhedt" ["title"]=> string(10) "thdhedthdt" ["abridgment"]=> string(9) "edthtedhj" ["activity"]=> string(1) "1" } } create
- * */
-
         if ($model->load(Yii::$app->request->post())) {
+            $activity = (isset(Yii::$app->request->post()['Post']['activity']))?Yii::$app->request->post()['Post']['activity']:1;
             $model->date = date('U');
-//            $model->activity = 1;
-            $model->author_id = 47;
+            $model->activity = $activity;
+            $model->author_id = Yii::$app->user->getId();
             $model->category_id = 1;
 
             if ($model->save()){
@@ -139,7 +134,7 @@ class PostController extends Controller
             //если пост запрос и save
         }
         $searchModel = new PostSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, true);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -172,7 +167,6 @@ class PostController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-//        var_dump(Yii::$app->request->post());die;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 //            if(Yii::$app->request->isAjax){
 //                echo 'success';

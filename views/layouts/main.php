@@ -40,9 +40,15 @@ AppAsset::register($this);
 //            ['label' => 'Contact', 'url' => ['/site/contact']],
 //        ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
+
     if(!Yii::$app->user->isGuest){
-        $items[] = ['label' => 'Manage News', 'url' => ['/post/index']];
-        $items[] = ['label' => 'RBAC', 'url' => ['/user/rbac']];
+        if(Yii::$app->user->can('administrator')||Yii::$app->user->can('moderator')){
+            $items[] = ['label' => 'Manage News', 'url' => ['/post/index']];
+            if(Yii::$app->user->can('administrator')){
+                $items[] = ['label' => 'RBAC', 'url' => ['/user/rbac']];
+                $items[] = ['label' => 'Manage Users', 'url' => ['/user/admin']];
+            }
+        }
         $items[] = ['label' => 'Profile', 'url' => ['/profile']];
     }
     $items[] = Yii::$app->user->isGuest ? (

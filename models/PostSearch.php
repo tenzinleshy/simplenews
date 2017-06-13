@@ -42,10 +42,11 @@ class PostSearch extends Post
      * Creates data provider instance with search query applied
      *
      * @param array $params
+     * @param bool $checkRole
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $checkRole = false)
     {
         $query = Post::find();
 
@@ -64,13 +65,17 @@ class PostSearch extends Post
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
+        $filterArr = [
             'id' => $this->id,
             'author_id' => $this->author_id,
             'date' => $this->date,
             'category_id' => $this->category_id,
             'activity' => $this->activity,
-        ]);
+        ];
+        if($checkRole && Yii::$app->user->can('moderator')){
+            $filterArr['author_id'] = Yii::$app->user->getIdentity()->getId();
+        }
+        $query->andFilterWhere($filterArr);
 
         $query->andFilterWhere(['like', 'text', $this->text])
             ->andFilterWhere(['like', 'title', $this->title])
