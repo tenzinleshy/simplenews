@@ -41,6 +41,8 @@ $modelPostSearch = new app\models\PostSearch();
         $modelPopup = new app\models\Post();
         echo $this->context->renderPartial('/post/create', [
             'model' => $modelPopup,
+            'postPictureHeight' => $postPictureHeight,
+            'postPictureWeight' => $postPictureWeight
         ]);
 
         Modal::end();

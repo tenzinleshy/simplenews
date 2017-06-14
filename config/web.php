@@ -126,8 +126,8 @@ $config = [
     'modules' => [//added
         'user' => [
             'class' => 'budyaga\users\Module',
-            'userPhotoUrl' => 'http://example.com/uploads/user/photo',
-            'userPhotoPath' => '@web/uploads/user/photo'
+            'userPhotoUrl' => 'http://simplenews/uploads/user/photo',
+            'userPhotoPath' => './uploads/user/photo'
         ],
     ],
     'params' => $params,

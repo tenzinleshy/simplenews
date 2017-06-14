@@ -16,6 +16,8 @@ use yii\helpers\Html;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'postPictureHeight' => $postPictureHeight,
+        'postPictureWeight' => $postPictureWeight
     ]) ?>
 
 </div>

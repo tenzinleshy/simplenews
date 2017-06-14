@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
+use budyaga\cropper\Widget;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -25,8 +27,16 @@ $this->registerJs(
     <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true,'enctype' => 'multipart/form-data'],'action' =>['post/create'],'method' => 'post']); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'picture')->widget(Widget::className(), [
+        'uploadUrl' => Url::toRoute('/user/user/uploadPhoto'),
+        'width' => $postPictureWeight,
+        'height' => $postPictureHeight,
+        'cropAreaWidth' => $postPictureWeight,
+        'cropAreaHeight' => $postPictureHeight,
+        'thumbnailWidth' => $postPictureWeight,
+        'thumbnailHeight' => $postPictureHeight,
+    ]) ?>
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
-
     <?= $form->field($model, 'abridgment')->textarea(['rows' => 6]) ?>
     <?php
         $template = [

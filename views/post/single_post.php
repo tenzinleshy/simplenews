@@ -5,6 +5,8 @@ use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use yii\widgets\ActiveField;
 use yii\widgets\ActiveForm;
+use yii\imagine\Image;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PostSearch */
@@ -15,6 +17,7 @@ $this->title = 'News';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['breadcrumbs'][] = $model->title;
 $modelPostSearch = new app\models\PostSearch();
+
 ?>
 
 <div class="post-index">
@@ -24,6 +27,7 @@ $modelPostSearch = new app\models\PostSearch();
         <h2><?= Html::encode($model->title) ?></h2>
         <div class="meta">
             <p>Автор: <?= $model->author_id?> | Дата публикации: <?= date('D, d M Y', $model->date) ?></p>
+            <p><?php echo (isset($model->picture))?Html::img($model->picture):"";?></p>
         </div>
         <?= $model->text ?>
 

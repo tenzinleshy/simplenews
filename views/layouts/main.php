@@ -50,9 +50,11 @@ AppAsset::register($this);
             }
         }
         $items[] = ['label' => 'Profile', 'url' => ['/profile']];
+    }else{
+        $items[] = ['label' => 'Signup', 'url' => ['/signup']];
     }
-    $items[] = Yii::$app->user->isGuest ? (
-    ['label' => 'Login', 'url' => ['/login']]
+    $items[] = (Yii::$app->user->isGuest) ? (
+        ['label' => 'Login', 'url' => ['/login']]
     ) : (
         '<li>'
         . Html::beginForm(['/logout'], 'post')

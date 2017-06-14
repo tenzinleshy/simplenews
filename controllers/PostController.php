@@ -26,6 +26,8 @@ class PostController extends Controller
         20 =>20,
         50 =>50,
     ];
+    const POST_PICTURE_WIDTH = 600;
+    const POST_PICTURE_HEIGHT = 350;
 
     public $numPosts = 2;
 
@@ -56,6 +58,8 @@ class PostController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'postPictureHeight' => self::POST_PICTURE_HEIGHT,
+            'postPictureWeight' => self::POST_PICTURE_WIDTH,
         ]);
     }
 
@@ -139,6 +143,8 @@ class PostController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $model,
+            'postPictureHeight' => self::POST_PICTURE_HEIGHT,
+            'postPictureWeight' => self::POST_PICTURE_WIDTH,
         ]);
 
     }
